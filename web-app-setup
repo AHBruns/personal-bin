@@ -1,0 +1,86 @@
+#!/bin/bash
+
+npm init -y
+echo "{
+  \"name\": \"testing\",
+  \"version\": \"1.0.0\",
+  \"description\": \"\",
+  \"main\": \"index.js\",
+  \"scripts\": {
+    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",
+    \"start\": \"webpack-dev-server --open --mode development\",
+    \"build\": \"webpack --mode production\"
+  },
+  \"keywords\": [],
+  \"author\": \"\",
+  \"license\": \"ISC\"
+}" > package.json
+npm i react react-dom redux react-redux webpack webpack-cli webpack-dev-server babel-loader @babel/core @babel/preset-env @babel/preset-react mongoose html-webpack-plugin html-loader
+echo "{
+    \"presets\": [
+        \"@babel/preset-react\",
+        \"@babel/preset-env\"
+    ]
+}
+" > .babelrc
+echo "const HtmlWebPackPlugin = require(\"html-webpack-plugin\")
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: \"babel-loader\"
+        }
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: \"html-loader\"
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: \"./src/index.html\",
+      filename: \"./index.html\"
+    })
+  ]
+}
+" > webpack.config.js
+mkdir src
+cd src
+echo "<!DOCTYPE html>
+<html>
+    <head>
+        <title>TBD</title>
+    </head>
+    <body>
+        <div id='react-container'></div>
+    </body>
+</html>
+" > index.html
+echo "import React from 'react'
+import ReactDOM from 'react-dom'
+
+ReactDOM.render(
+    <p
+        style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+        }}
+    >
+        Your web application development environment is setup. Now comes the hard part 😉. Good luck!
+    </p>,
+    document.getElementById('react-container')
+)
+" > index.js
+cd ..
+npm run build
+npm run start
