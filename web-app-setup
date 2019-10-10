@@ -15,7 +15,7 @@ echo "{
   \"author\": \"\",
   \"license\": \"ISC\"
 }" > package.json
-npm i react react-dom redux react-redux webpack webpack-cli webpack-dev-server babel-loader @babel/core @babel/preset-env @babel/preset-react mongoose html-webpack-plugin html-loader
+npm i react react-dom redux react-redux @reach/router webpack webpack-cli webpack-dev-server babel-loader @babel/core @babel/preset-env @babel/preset-react mongoose html-webpack-plugin html-loader style-loader css-loader
 echo "{
     \"presets\": [
         \"@babel/preset-react\",
@@ -41,6 +41,18 @@ module.exports = {
             loader: \"html-loader\"
           }
         ]
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          {
+            loader: \"style-loader\",
+            options: {
+              insert: \"body\",
+            },
+          },
+          \"css-loader\"
+        ],
       }
     ]
   },
@@ -64,8 +76,14 @@ echo "<!DOCTYPE html>
     </body>
 </html>
 " > index.html
+echo "body {
+    margin: 0;
+    background-color: antiquewhite;
+}
+" > styles.css
 echo "import React from 'react'
 import ReactDOM from 'react-dom'
+import './styles.css'
 
 ReactDOM.render(
     <p
