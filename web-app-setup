@@ -1,5 +1,5 @@
 #!/bin/bash
-
+read  -n 1 -p "press enter to continue (ctrl-c to quit):" inp
 npm init -y
 echo "{
   \"name\": \"testing\",
